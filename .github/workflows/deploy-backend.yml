@@ -20,7 +20,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::084203535650:role/GitHub-PythonBuddy-Deploy
+          role-to-assume: arn:aws:iam::084203535650:role/GitHubActions-PythonBuddy-Role
           aws-region: us-east-1
 
       - name: Trigger EC2 SSM Deployment
