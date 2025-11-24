@@ -19,7 +19,7 @@ USER appuser
 COPY --chown=appuser:appuser . .
 
 # Expose port
-EXPOSE 5000
+EXPOSE 5001
 
 # Use gunicorn for production
 CMD ["python", "app.py"]
