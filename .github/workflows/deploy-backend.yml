@@ -1,0 +1,32 @@
+name: Deploy PythonBuddy Backend
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::084203535650:role/GitHub-PythonBuddy-Deploy
+          aws-region: us-east-1
+
+      - name: Trigger EC2 SSM Deployment
+        run: |
+          aws ssm send-command \
+            --targets "Key=tag:Role,Values=BackendExecutor" \
+            --document-name "AWS-RunShellScript" \
+            --parameters commands=["sudo bash /home/ec2-user/pythonbuddy/scripts/deploy-backend-ssm.sh"] \
+            --comment "Deploy latest backend version"
